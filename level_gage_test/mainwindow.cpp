@@ -37,7 +37,7 @@
 #include "settingsdialog.h"
 
 #include <QMessageBox>
-#include <QtSerialPort/QSerialPort>
+//#include <QtSerialPort/QSerialPort>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -49,14 +49,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     settings = new SettingsDialog;
-    serial   = new Serial();
+//    serial   = new Serial();
 
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     ui->actionQuit->setEnabled(true);
     ui->actionConfigure->setEnabled(true);
 
-
+    RtuModbus=new QRtuModbus();
 
     initActionsConnections();
 
@@ -76,15 +76,9 @@ MainWindow::~MainWindow()
 void MainWindow::openSerialPort()
 {
     SettingsDialog::Settings p = settings->settings();
-//    serial->writeSettingsSerial(p.name,p.baudRate,p.dataBits,p.parity,p.stopBits,p.flowControl);
-//    serial->connectSerial();
-    serial->SerialPort->setPortName(p.name);
-    serial->SerialPort->setBaudRate(p.baudRate);
-    serial->SerialPort->setDataBits(p.dataBits);
-    serial->SerialPort->setParity(p.parity);
-    serial->SerialPort->setStopBits(p.stopBits);
-    serial->SerialPort->setFlowControl(p.flowControl);
-    if (serial->SerialPort->open(QIODevice::ReadWrite))
+//    serial->writeSettingsSerial(p.name,p.baudRate,p.dataBits,p.stopBits,p.parity,p.flowControl);
+
+    if (RtuModbus->open(p.name,p.baudRate,p.dataBits,p.stopBits,p.parity,p.flowControl))
     {
             ui->actionConnect->setEnabled(false);
             ui->actionDisconnect->setEnabled(true);
@@ -95,7 +89,7 @@ void MainWindow::openSerialPort()
     }
     else
     {
-        QMessageBox::critical(this, tr("Error"), serial->SerialPort->errorString());
+        QMessageBox::critical(this, tr("Error"),"ERROR");
 
         ui->statusBar->showMessage(tr("Open error"));
     }
@@ -104,7 +98,7 @@ void MainWindow::openSerialPort()
 
 void MainWindow::closeSerialPort()
 {
-    serial->disconnectSerial();
+    RtuModbus->close();
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     ui->actionConfigure->setEnabled(true);
@@ -119,29 +113,6 @@ void MainWindow::about()
                           "use the Qt Serial Port module in modern GUI applications "
                           "using Qt, with a menu bar, toolbars, and a status bar."));
 }
-
-////! [6]
-//void MainWindow::writeData(const QByteArray &data)
-//{
-//    serial->write(data);
-//}
-////! [6]
-
-////! [7]
-//void MainWindow::readData()
-//{
-//    QByteArray data = serial->readAll();
-//    console->putData(data);
-//}
-
-//void MainWindow::handleError(QSerialPort::SerialPortError error)
-//{
-//    if (error == QSerialPort::ResourceError) {
-//        QMessageBox::critical(this, tr("Critical Error"), serial->errorString());
-//        closeSerialPort();
-//    }
-//}
-
 
 void MainWindow::initActionsConnections()
 {

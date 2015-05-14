@@ -1,0 +1,12 @@
+INPUT(
+./debug/main.o
+./debug/mainwindow.o
+./debug/serial.o
+./debug/settingsdialog.o
+./debug/modbus.o
+./debug/modbus-data.o
+./debug/modbus-rtu.o
+./debug/moc_mainwindow.o
+./debug/moc_serial.o
+./debug/moc_settingsdialog.o
+);

@@ -16,11 +16,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     serial/serial.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    qmodbus/qrtumodbus.cpp
 
 HEADERS  += mainwindow.h \
     serial/serial.h \
-    settingsdialog.h
+    settingsdialog.h \
+    qmodbus/qabstractmodbus.h \
+    qmodbus/qrtumodbus.h
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui

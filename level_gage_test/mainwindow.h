@@ -42,6 +42,7 @@
 #include <QtSerialPort/QSerialPort>
 #include "serial/serial.h"
 #include "settingsdialog.h"
+#include "qmodbus/qrtumodbus.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -77,6 +78,8 @@ private:
 private:
     Ui::MainWindow *ui;
     Serial *serial;
+    QRtuModbus *RtuModbus;
+
     SettingsDialog *settings;
 };
 
