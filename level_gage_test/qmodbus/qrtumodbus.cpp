@@ -1222,6 +1222,8 @@ QByteArray QRtuModbus::_read( const int numberBytes ) const
 
     if ( numberBytes == 0 ) return data;
 
+ //   while(SerialPort->bytesAvailable()<numberBytes);
+
     data.append(SerialPort->read(numberBytes));
     return data;
 }

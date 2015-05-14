@@ -17,6 +17,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
@@ -36,6 +37,7 @@ public:
     QAction *actionQuit;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
+    QPushButton *getRtuRegister;
     QMenuBar *menuBar;
     QMenu *menuCalls;
     QMenu *menuTools;
@@ -83,10 +85,15 @@ public:
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        getRtuRegister = new QPushButton(centralWidget);
+        getRtuRegister->setObjectName(QStringLiteral("getRtuRegister"));
+
+        verticalLayout->addWidget(getRtuRegister);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 400, 19));
+        menuBar->setGeometry(QRect(0, 0, 400, 18));
         menuCalls = new QMenu(menuBar);
         menuCalls->setObjectName(QStringLiteral("menuCalls"));
         menuTools = new QMenu(menuBar);
@@ -153,6 +160,7 @@ public:
         actionClear->setShortcut(QApplication::translate("MainWindow", "Alt+L", 0));
         actionQuit->setText(QApplication::translate("MainWindow", "&Quit", 0));
         actionQuit->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", 0));
+        getRtuRegister->setText(QApplication::translate("MainWindow", "get reg", 0));
         menuCalls->setTitle(QApplication::translate("MainWindow", "Calls", 0));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0));

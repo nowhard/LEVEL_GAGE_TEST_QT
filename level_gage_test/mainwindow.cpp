@@ -76,7 +76,6 @@ MainWindow::~MainWindow()
 void MainWindow::openSerialPort()
 {
     SettingsDialog::Settings p = settings->settings();
-//    serial->writeSettingsSerial(p.name,p.baudRate,p.dataBits,p.stopBits,p.parity,p.flowControl);
 
     if (RtuModbus->open(p.name,p.baudRate,p.dataBits,p.stopBits,p.parity,p.flowControl))
     {
@@ -120,7 +119,17 @@ void MainWindow::initActionsConnections()
     connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionConfigure, SIGNAL(triggered()), settings, SLOT(show()));
-    //connect(ui->actionClear, SIGNAL(triggered()), console, SLOT(clear()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+}
+
+void MainWindow::on_getRtuRegister_clicked()
+{
+    QList<quint16> response;
+    if(RtuModbus->isOpen())
+    {
+        response=RtuModbus->readInputRegisters(0xA,0x1,1,NULL);
+
+        response;
+    }
 }

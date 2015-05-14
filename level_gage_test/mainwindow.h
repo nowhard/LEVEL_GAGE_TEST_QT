@@ -72,6 +72,8 @@ private slots:
 
 //    void handleError(QSerialPort::SerialPortError error);
 
+    void on_getRtuRegister_clicked();
+
 private:
     void initActionsConnections();
 

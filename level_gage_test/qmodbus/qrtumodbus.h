@@ -170,6 +170,10 @@ public:
     // Interface implementation (QiAbstractModbus).
     QByteArray calculateCheckSum( QByteArray &data ) const;
 
+public slots:
+
+    void processRtuModbus();
+
 private:
 
     QByteArray _read( const int numberBytes ) const;
