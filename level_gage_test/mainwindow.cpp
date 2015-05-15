@@ -37,19 +37,19 @@
 #include "settingsdialog.h"
 
 #include <QMessageBox>
+#include <QDebug>
 //#include <QtSerialPort/QSerialPort>
+#include <QThread>
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-
     ui->setupUi(this);
 
-
     settings = new SettingsDialog;
-//    serial   = new Serial();
 
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
@@ -57,11 +57,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionConfigure->setEnabled(true);
 
     RtuModbus=new QRtuModbus();
+    RegRequestTimer=new QTimer;
+
+    connect(RegRequestTimer,SIGNAL(timeout()),this,SLOT(RegRequest()));
+
+//    QThread *RtuModbusThread=new QThread(this);
+
+//    RtuModbus->moveToThread(RtuModbusThread);
+//    connect(RtuModbusThread, SIGNAL(started()), RtuModbus, SLOT(processRtuModbus()));
+//    connect(RtuModbusThread, SIGNAL(finished()), RtuModbusThread, SLOT(deleteLater()));
+
+//    RtuModbusThread->start();
 
     initActionsConnections();
 
-    connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
-            SLOT(handleError(QSerialPort::SerialPortError)));
+//    connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
+//            SLOT(handleError(QSerialPort::SerialPortError)));
 
 }
 
@@ -125,11 +136,31 @@ void MainWindow::initActionsConnections()
 
 void MainWindow::on_getRtuRegister_clicked()
 {
-    QList<quint16> response;
-    if(RtuModbus->isOpen())
+    if(RegRequestTimer->isActive())
     {
-        response=RtuModbus->readInputRegisters(0xA,0x1,1,NULL);
-
-        response;
+        RegRequestTimer->stop();
+    }
+    else
+    {
+        RegRequestTimer->setInterval(500);
+        RegRequestTimer->start();
     }
 }
+
+
+ void MainWindow::RegRequest()
+ {
+     QList<quint16> response;
+     if(RtuModbus->isOpen())
+     {
+         response=RtuModbus->readInputRegisters(0xA,0x0,3,NULL);
+
+         if(response.length()==3)
+         {
+             this->ui->pot_1->setText(QString::number(response[0]));
+             this->ui->pot_2->setText(QString::number(response[1]));
+             this->ui->sensor->setText(QString::number(response[2]));
+         }
+
+     }
+ }

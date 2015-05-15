@@ -43,6 +43,7 @@
 #include "serial/serial.h"
 #include "settingsdialog.h"
 #include "qmodbus/qrtumodbus.h"
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 
@@ -74,6 +75,8 @@ private slots:
 
     void on_getRtuRegister_clicked();
 
+    void RegRequest();
+
 private:
     void initActionsConnections();
 
@@ -81,8 +84,8 @@ private:
     Ui::MainWindow *ui;
     Serial *serial;
     QRtuModbus *RtuModbus;
-
     SettingsDialog *settings;
+    QTimer *RegRequestTimer;
 };
 
 #endif // MAINWINDOW_H

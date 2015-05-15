@@ -18,7 +18,28 @@
     <item>
      <widget class="QPushButton" name="getRtuRegister">
       <property name="text">
-       <string>get reg</string>
+       <string>start</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="pot_1">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="pot_2">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="sensor">
+      <property name="text">
+       <string>TextLabel</string>
       </property>
      </widget>
     </item>

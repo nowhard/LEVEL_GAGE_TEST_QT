@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -38,6 +39,9 @@ public:
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QPushButton *getRtuRegister;
+    QLabel *pot_1;
+    QLabel *pot_2;
+    QLabel *sensor;
     QMenuBar *menuBar;
     QMenu *menuCalls;
     QMenu *menuTools;
@@ -89,6 +93,21 @@ public:
         getRtuRegister->setObjectName(QStringLiteral("getRtuRegister"));
 
         verticalLayout->addWidget(getRtuRegister);
+
+        pot_1 = new QLabel(centralWidget);
+        pot_1->setObjectName(QStringLiteral("pot_1"));
+
+        verticalLayout->addWidget(pot_1);
+
+        pot_2 = new QLabel(centralWidget);
+        pot_2->setObjectName(QStringLiteral("pot_2"));
+
+        verticalLayout->addWidget(pot_2);
+
+        sensor = new QLabel(centralWidget);
+        sensor->setObjectName(QStringLiteral("sensor"));
+
+        verticalLayout->addWidget(sensor);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -160,7 +179,10 @@ public:
         actionClear->setShortcut(QApplication::translate("MainWindow", "Alt+L", 0));
         actionQuit->setText(QApplication::translate("MainWindow", "&Quit", 0));
         actionQuit->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", 0));
-        getRtuRegister->setText(QApplication::translate("MainWindow", "get reg", 0));
+        getRtuRegister->setText(QApplication::translate("MainWindow", "start", 0));
+        pot_1->setText(QApplication::translate("MainWindow", "TextLabel", 0));
+        pot_2->setText(QApplication::translate("MainWindow", "TextLabel", 0));
+        sensor->setText(QApplication::translate("MainWindow", "TextLabel", 0));
         menuCalls->setTitle(QApplication::translate("MainWindow", "Calls", 0));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0));

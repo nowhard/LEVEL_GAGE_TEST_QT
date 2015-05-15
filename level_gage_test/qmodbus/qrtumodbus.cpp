@@ -69,7 +69,6 @@ void QRtuModbus::setTimeout( const unsigned int timeout )
 {
     _timeout = timeout;
 
-    // If the file is open, change the timeout on the fly.
     if ( isOpen() )
     {
 
@@ -389,6 +388,8 @@ QList<quint16> QRtuModbus::readInputRegisters( const quint8 deviceAddress , cons
     quint16 neededRxBytes = quantityOfInputRegisters * 2;
     pdu.clear();
 
+    SerialPort->waitForReadyRead(100);
+
     // Even on error we have at least 5 bytes to read.
     pdu = _read( 5 );
 
@@ -426,7 +427,6 @@ QList<quint16> QRtuModbus::readInputRegisters( const quint8 deviceAddress , cons
     // Check data and return them on success.
     if ( pdu.size() == neededRxBytes + 5 )
     {
-        // Read TCP fields and, device address and command ID and control them.
         quint8 rxDeviceAddress , rxFunctionCode , byteCount;
         QDataStream rxStream( pdu );
         rxStream.setByteOrder( QDataStream::BigEndian );
@@ -480,6 +480,7 @@ bool QRtuModbus::writeSingleCoil( const quint8 deviceAddress , const quint16 out
 
     // Await response.
     pdu.clear();
+    SerialPort->waitForReadyRead(100);
 
     // Even on error we have at least 5 bytes to read.
     pdu = _read( 5 );
@@ -565,6 +566,8 @@ bool QRtuModbus::writeSingleRegister( const quint8 deviceAddress , const quint16
 
     // Await response.
     pdu.clear();
+
+     SerialPort->waitForReadyRead(100);
 
     // Even on error we have at least 5 bytes to read.
     pdu = _read( 5 );
@@ -665,6 +668,7 @@ bool QRtuModbus::writeMultipleCoils( const quint8 deviceAddress , const quint16 
 
     // Await response.
     pdu.clear();
+    SerialPort->waitForReadyRead(100);
 
     // Even on error we have at least 5 bytes to read.
     pdu = _read( 5 );
@@ -757,6 +761,7 @@ bool QRtuModbus::writeMultipleRegisters( const quint8 deviceAddress , const quin
 
     // Await response.
     pdu.clear();
+    SerialPort->waitForReadyRead(100);
 
     // Even on error we have at least 5 bytes to read.
     pdu = _read( 5 );
@@ -842,7 +847,7 @@ bool QRtuModbus::maskWriteRegister( const quint8 deviceAddress , const quint16 r
 
     // Await response.
     pdu.clear();
-
+    SerialPort->waitForReadyRead(100);
     // Even on error we have at least 5 bytes to read.
     pdu = _read( 5 );
 
@@ -939,6 +944,7 @@ QList<quint16> QRtuModbus::writeReadMultipleRegisters( const quint8 deviceAddres
     // Await response.
     quint16 neededRxBytes = quantityToRead * 2;
     pdu.clear();
+    SerialPort->waitForReadyRead(100);
 
     // Even on error we have at least 5 bytes to read.
     pdu = _read( 5 );
@@ -1031,6 +1037,7 @@ QList<quint16> QRtuModbus::readFifoQueue( const quint8 deviceAddress , const qui
 
     // Await response.
     pdu.clear();
+    SerialPort->waitForReadyRead(100);
 
     // Even on error we have at least 5 bytes to read.
     pdu = _read( 5 );
@@ -1195,6 +1202,7 @@ QByteArray QRtuModbus::executeRaw( QByteArray &data , quint8 *const status ) con
 
     // Send the data.
     _write( data );
+    SerialPort->waitForReadyRead(100);
 
     // Await response.
     // Even on error we have at least 5 bytes to read.
@@ -1218,14 +1226,14 @@ QByteArray QRtuModbus::calculateCheckSum( QByteArray &data ) const
 
 QByteArray QRtuModbus::_read( const int numberBytes ) const
 {
-    QByteArray data( numberBytes , 0 );
+//    QByteArray data( numberBytes , 0 );
 
-    if ( numberBytes == 0 ) return data;
+//    if ( numberBytes == 0 ) return data;
 
- //   while(SerialPort->bytesAvailable()<numberBytes);
+// //   while(SerialPort->bytesAvailable()<numberBytes);
 
-    data.append(SerialPort->read(numberBytes));
-    return data;
+    //data.append(SerialPort->read(numberBytes));
+    return SerialPort->read(numberBytes);
 }
 
 QByteArray QRtuModbus::_readAll( void ) const
@@ -1282,4 +1290,16 @@ bool QRtuModbus::_checkCrc( const QByteArray &pdu ) const
     quint16 crc = _calculateCrc( msg );
 
     return pdu.endsWith( QByteArray( (const char *)&crc , 2 ) );
+}
+
+void QRtuModbus::processRtuModbus()
+{
+    while(1)
+    {
+        if(isOpen())
+        {
+           readInputRegisters(0xA,0x1,1,NULL);
+        }
+        QThread::sleep(500);
+    }
 }
