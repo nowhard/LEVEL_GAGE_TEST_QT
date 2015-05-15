@@ -45,6 +45,8 @@
 #include "qmodbus/qrtumodbus.h"
 #include <QTimer>
 
+#define GRAPH_LENGTH    201
+
 QT_BEGIN_NAMESPACE
 
 namespace Ui {
@@ -86,6 +88,8 @@ private:
     QRtuModbus *RtuModbus;
     SettingsDialog *settings;
     QTimer *RegRequestTimer;
+
+    QVector<double> x, y;
 };
 
 #endif // MAINWINDOW_H

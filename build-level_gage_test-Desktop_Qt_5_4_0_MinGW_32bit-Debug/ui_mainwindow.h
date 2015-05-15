@@ -21,8 +21,8 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "qcustomplot/qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -37,11 +37,11 @@ public:
     QAction *actionClear;
     QAction *actionQuit;
     QWidget *centralWidget;
-    QVBoxLayout *verticalLayout;
     QPushButton *getRtuRegister;
     QLabel *pot_1;
     QLabel *pot_2;
     QLabel *sensor;
+    QCustomPlot *plot;
     QMenuBar *menuBar;
     QMenu *menuCalls;
     QMenu *menuTools;
@@ -85,30 +85,26 @@ public:
         actionQuit->setIcon(icon4);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        verticalLayout = new QVBoxLayout(centralWidget);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         getRtuRegister = new QPushButton(centralWidget);
         getRtuRegister->setObjectName(QStringLiteral("getRtuRegister"));
-
-        verticalLayout->addWidget(getRtuRegister);
-
+        getRtuRegister->setGeometry(QRect(310, 190, 81, 23));
         pot_1 = new QLabel(centralWidget);
         pot_1->setObjectName(QStringLiteral("pot_1"));
-
-        verticalLayout->addWidget(pot_1);
-
+        pot_1->setGeometry(QRect(10, 170, 46, 16));
         pot_2 = new QLabel(centralWidget);
         pot_2->setObjectName(QStringLiteral("pot_2"));
-
-        verticalLayout->addWidget(pot_2);
-
+        pot_2->setGeometry(QRect(9, 189, 46, 16));
         sensor = new QLabel(centralWidget);
         sensor->setObjectName(QStringLiteral("sensor"));
-
-        verticalLayout->addWidget(sensor);
-
+        sensor->setGeometry(QRect(9, 208, 46, 16));
+        plot = new QCustomPlot(centralWidget);
+        plot->setObjectName(QStringLiteral("plot"));
+        plot->setGeometry(QRect(9, 9, 382, 161));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(plot->sizePolicy().hasHeightForWidth());
+        plot->setSizePolicy(sizePolicy);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));

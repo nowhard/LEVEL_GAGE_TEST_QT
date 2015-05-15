@@ -71,6 +71,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initActionsConnections();
 
+
+    ui->plot->addGraph();
+ //   ui->widget->graph(0)->setData(x, y);
+
+    ui->plot->xAxis->setLabel("отсчеты");
+    ui->plot->yAxis->setLabel("значение");
+    ui->plot->xAxis->setRange(0, 200);
+    ui->plot->yAxis->setRange(0, 4095);
+
+   // ui->widget->replot();
+
 //    connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
 //            SLOT(handleError(QSerialPort::SerialPortError)));
 
@@ -151,6 +162,7 @@ void MainWindow::on_getRtuRegister_clicked()
  void MainWindow::RegRequest()
  {
      QList<quint16> response;
+
      if(RtuModbus->isOpen())
      {
          response=RtuModbus->readInputRegisters(0xA,0x0,3,NULL);
@@ -160,6 +172,21 @@ void MainWindow::on_getRtuRegister_clicked()
              this->ui->pot_1->setText(QString::number(response[0]));
              this->ui->pot_2->setText(QString::number(response[1]));
              this->ui->sensor->setText(QString::number(response[2]));
+
+             if(y.length()<GRAPH_LENGTH)
+             {
+                   y.append((double)response[2]);
+                   x.append(x.length());
+             }
+             else
+             {
+                 y.pop_front();
+                 y.append((double)response[2]);
+             }
+
+             ui->plot->graph(0)->setData(x,y);
+             ui->plot->replot();
+
          }
 
      }

@@ -180,6 +180,7 @@ Makefile: ../level_gage_test/level_gage_test.pro C:/Qt/Qt5.4.0/5.4/mingw491_32/m
 		../level_gage_test/level_gage_test.pro \
 		C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/qtmaind.prl \
 		C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5Cored.prl \
+		C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5PrintSupport.prl \
 		C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5Widgets.prl \
 		C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5Gui.prl \
 		C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5SerialPort.prl \
@@ -306,6 +307,7 @@ C:/Qt/Qt5.4.0/5.4/mingw491_32/mkspecs/features/lex.prf:
 ../level_gage_test/level_gage_test.pro:
 C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/qtmaind.prl:
 C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5Cored.prl:
+C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5PrintSupport.prl:
 C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5Widgets.prl:
 C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5Gui.prl:
 C:/Qt/Qt5.4.0/5.4/mingw491_32/lib/Qt5SerialPort.prl:
