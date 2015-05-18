@@ -13,51 +13,53 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "qcustomplot/qcustomplot.h"
+#include <qcustomplot/qcustomplot.h>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_MainWindow
 {
 public:
-    QAction *actionAbout;
-    QAction *actionAboutQt;
     QAction *actionConnect;
     QAction *actionDisconnect;
     QAction *actionConfigure;
-    QAction *actionClear;
     QAction *actionQuit;
     QWidget *centralWidget;
-    QPushButton *getRtuRegister;
+    QVBoxLayout *verticalLayout_4;
+    QHBoxLayout *horizontalLayout;
+    QCustomPlot *plot;
+    QListView *listError;
+    QHBoxLayout *horizontalLayout_2;
+    QVBoxLayout *verticalLayout_2;
+    QLabel *sensor_value_label;
+    QLabel *label;
+    QLabel *label_2;
+    QVBoxLayout *verticalLayout_3;
+    QLabel *sensor;
     QLabel *pot_1;
     QLabel *pot_2;
-    QLabel *sensor;
-    QCustomPlot *plot;
+    QPushButton *getRtuRegister;
     QMenuBar *menuBar;
     QMenu *menuCalls;
     QMenu *menuTools;
-    QMenu *menuHelp;
-    QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(400, 300);
-        actionAbout = new QAction(MainWindow);
-        actionAbout->setObjectName(QStringLiteral("actionAbout"));
-        actionAboutQt = new QAction(MainWindow);
-        actionAboutQt->setObjectName(QStringLiteral("actionAboutQt"));
+        MainWindow->resize(583, 505);
         actionConnect = new QAction(MainWindow);
         actionConnect->setObjectName(QStringLiteral("actionConnect"));
         QIcon icon;
@@ -73,71 +75,125 @@ public:
         QIcon icon2;
         icon2.addFile(QStringLiteral(":/images/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionConfigure->setIcon(icon2);
-        actionClear = new QAction(MainWindow);
-        actionClear->setObjectName(QStringLiteral("actionClear"));
-        QIcon icon3;
-        icon3.addFile(QStringLiteral(":/images/clear.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionClear->setIcon(icon3);
         actionQuit = new QAction(MainWindow);
         actionQuit->setObjectName(QStringLiteral("actionQuit"));
-        QIcon icon4;
-        icon4.addFile(QStringLiteral(":/images/application-exit.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionQuit->setIcon(icon4);
+        QIcon icon3;
+        icon3.addFile(QStringLiteral(":/images/application-exit.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionQuit->setIcon(icon3);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        getRtuRegister = new QPushButton(centralWidget);
-        getRtuRegister->setObjectName(QStringLiteral("getRtuRegister"));
-        getRtuRegister->setGeometry(QRect(310, 190, 81, 23));
-        pot_1 = new QLabel(centralWidget);
-        pot_1->setObjectName(QStringLiteral("pot_1"));
-        pot_1->setGeometry(QRect(10, 170, 46, 16));
-        pot_2 = new QLabel(centralWidget);
-        pot_2->setObjectName(QStringLiteral("pot_2"));
-        pot_2->setGeometry(QRect(9, 189, 46, 16));
-        sensor = new QLabel(centralWidget);
-        sensor->setObjectName(QStringLiteral("sensor"));
-        sensor->setGeometry(QRect(9, 208, 46, 16));
+        verticalLayout_4 = new QVBoxLayout(centralWidget);
+        verticalLayout_4->setSpacing(6);
+        verticalLayout_4->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         plot = new QCustomPlot(centralWidget);
         plot->setObjectName(QStringLiteral("plot"));
-        plot->setGeometry(QRect(9, 9, 382, 161));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(plot->sizePolicy().hasHeightForWidth());
         plot->setSizePolicy(sizePolicy);
+        plot->setMaximumSize(QSize(1000, 1000));
+
+        horizontalLayout->addWidget(plot);
+
+        listError = new QListView(centralWidget);
+        listError->setObjectName(QStringLiteral("listError"));
+        listError->setEnabled(true);
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(listError->sizePolicy().hasHeightForWidth());
+        listError->setSizePolicy(sizePolicy1);
+        listError->setMaximumSize(QSize(100, 16777215));
+
+        horizontalLayout->addWidget(listError);
+
+
+        verticalLayout_4->addLayout(horizontalLayout);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        sensor_value_label = new QLabel(centralWidget);
+        sensor_value_label->setObjectName(QStringLiteral("sensor_value_label"));
+
+        verticalLayout_2->addWidget(sensor_value_label);
+
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+
+        verticalLayout_2->addWidget(label);
+
+        label_2 = new QLabel(centralWidget);
+        label_2->setObjectName(QStringLiteral("label_2"));
+
+        verticalLayout_2->addWidget(label_2);
+
+
+        horizontalLayout_2->addLayout(verticalLayout_2);
+
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        sensor = new QLabel(centralWidget);
+        sensor->setObjectName(QStringLiteral("sensor"));
+
+        verticalLayout_3->addWidget(sensor);
+
+        pot_1 = new QLabel(centralWidget);
+        pot_1->setObjectName(QStringLiteral("pot_1"));
+
+        verticalLayout_3->addWidget(pot_1);
+
+        pot_2 = new QLabel(centralWidget);
+        pot_2->setObjectName(QStringLiteral("pot_2"));
+
+        verticalLayout_3->addWidget(pot_2);
+
+
+        horizontalLayout_2->addLayout(verticalLayout_3);
+
+        getRtuRegister = new QPushButton(centralWidget);
+        getRtuRegister->setObjectName(QStringLiteral("getRtuRegister"));
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(getRtuRegister->sizePolicy().hasHeightForWidth());
+        getRtuRegister->setSizePolicy(sizePolicy2);
+        getRtuRegister->setMinimumSize(QSize(0, 50));
+
+        horizontalLayout_2->addWidget(getRtuRegister);
+
+
+        verticalLayout_4->addLayout(horizontalLayout_2);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 400, 18));
+        menuBar->setGeometry(QRect(0, 0, 583, 18));
         menuCalls = new QMenu(menuBar);
         menuCalls->setObjectName(QStringLiteral("menuCalls"));
         menuTools = new QMenu(menuBar);
         menuTools->setObjectName(QStringLiteral("menuTools"));
-        menuHelp = new QMenu(menuBar);
-        menuHelp->setObjectName(QStringLiteral("menuHelp"));
         MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuCalls->menuAction());
         menuBar->addAction(menuTools->menuAction());
-        menuBar->addAction(menuHelp->menuAction());
         menuCalls->addAction(actionConnect);
         menuCalls->addAction(actionDisconnect);
         menuCalls->addSeparator();
         menuCalls->addAction(actionQuit);
         menuTools->addAction(actionConfigure);
-        menuTools->addAction(actionClear);
-        menuHelp->addAction(actionAbout);
-        menuHelp->addAction(actionAboutQt);
-        mainToolBar->addAction(actionConnect);
-        mainToolBar->addAction(actionDisconnect);
-        mainToolBar->addAction(actionConfigure);
-        mainToolBar->addAction(actionClear);
 
         retranslateUi(MainWindow);
 
@@ -146,42 +202,33 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Simple Terminal", 0));
-        actionAbout->setText(QApplication::translate("MainWindow", "&About", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "\320\242\320\265\321\201\321\202\320\270\321\200\320\276\320\262\320\260\320\275\320\270\320\265 \321\203\321\200\320\276\320\262\320\275\320\265\320\274\320\265\321\200\320\260", 0));
+        actionConnect->setText(QApplication::translate("MainWindow", "\320\237&\320\276\320\264\320\272\320\273\321\216\321\207\320\270\321\202\321\214", 0));
 #ifndef QT_NO_TOOLTIP
-        actionAbout->setToolTip(QApplication::translate("MainWindow", "About program", 0));
-#endif // QT_NO_TOOLTIP
-        actionAbout->setShortcut(QApplication::translate("MainWindow", "Alt+A", 0));
-        actionAboutQt->setText(QApplication::translate("MainWindow", "About Qt", 0));
-        actionConnect->setText(QApplication::translate("MainWindow", "C&onnect", 0));
-#ifndef QT_NO_TOOLTIP
-        actionConnect->setToolTip(QApplication::translate("MainWindow", "Connect to serial port", 0));
+        actionConnect->setToolTip(QApplication::translate("MainWindow", "\320\237\320\276\320\264\320\272\320\273\321\216\321\207\320\270\321\202\321\214 \320\272 \320\277\320\276\321\201\320\273\320\265\320\264\320\276\320\262\320\260\321\202\320\265\320\273\321\214\320\275\320\276\320\274\321\203 \320\277\320\276\321\200\321\202\321\203", 0));
 #endif // QT_NO_TOOLTIP
         actionConnect->setShortcut(QApplication::translate("MainWindow", "Ctrl+O", 0));
-        actionDisconnect->setText(QApplication::translate("MainWindow", "&Disconnect", 0));
+        actionDisconnect->setText(QApplication::translate("MainWindow", "&\320\236\321\202\320\272\320\273\321\216\321\207\320\270\321\202\321\214", 0));
 #ifndef QT_NO_TOOLTIP
-        actionDisconnect->setToolTip(QApplication::translate("MainWindow", "Disconnect from serial port", 0));
+        actionDisconnect->setToolTip(QApplication::translate("MainWindow", "\320\236\321\202\320\272\320\273\321\216\321\207\320\270\321\202\321\214 \320\276\321\202 \320\277\320\276\321\201\320\273\320\265\320\264\320\276\320\262\320\260\321\202\320\265\320\273\321\214\320\275\320\276\320\263\320\276 \320\277\320\276\321\200\321\202\320\260", 0));
 #endif // QT_NO_TOOLTIP
         actionDisconnect->setShortcut(QApplication::translate("MainWindow", "Ctrl+D", 0));
-        actionConfigure->setText(QApplication::translate("MainWindow", "&Configure", 0));
+        actionConfigure->setText(QApplication::translate("MainWindow", "&\320\235\320\260\321\201\321\202\321\200\320\276\320\270\321\202\321\214 \320\277\320\276\321\200\321\202", 0));
 #ifndef QT_NO_TOOLTIP
-        actionConfigure->setToolTip(QApplication::translate("MainWindow", "Configure serial port", 0));
+        actionConfigure->setToolTip(QApplication::translate("MainWindow", "\320\235\320\260\321\201\321\202\321\200\320\276\320\271\320\272\320\260 \320\277\320\276\321\201\320\273\320\265\320\264\320\276\320\262\320\260\321\202\320\265\320\273\321\214\320\275\320\276\320\263\320\276 \320\277\320\276\321\200\321\202\320\260", 0));
 #endif // QT_NO_TOOLTIP
         actionConfigure->setShortcut(QApplication::translate("MainWindow", "Alt+C", 0));
-        actionClear->setText(QApplication::translate("MainWindow", "C&lear", 0));
-#ifndef QT_NO_TOOLTIP
-        actionClear->setToolTip(QApplication::translate("MainWindow", "Clear data", 0));
-#endif // QT_NO_TOOLTIP
-        actionClear->setShortcut(QApplication::translate("MainWindow", "Alt+L", 0));
-        actionQuit->setText(QApplication::translate("MainWindow", "&Quit", 0));
+        actionQuit->setText(QApplication::translate("MainWindow", "&\320\222\321\213\321\205\320\276\320\264", 0));
         actionQuit->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", 0));
-        getRtuRegister->setText(QApplication::translate("MainWindow", "start", 0));
-        pot_1->setText(QApplication::translate("MainWindow", "TextLabel", 0));
-        pot_2->setText(QApplication::translate("MainWindow", "TextLabel", 0));
-        sensor->setText(QApplication::translate("MainWindow", "TextLabel", 0));
-        menuCalls->setTitle(QApplication::translate("MainWindow", "Calls", 0));
-        menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0));
-        menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0));
+        sensor_value_label->setText(QApplication::translate("MainWindow", "\320\227\320\275\320\260\321\207\320\265\320\275\320\270\320\265 \320\264\320\260\321\202\321\207\320\270\320\272\320\260", 0));
+        label->setText(QApplication::translate("MainWindow", "\320\241\320\272\320\276\321\200\320\276\321\201\321\202\321\214 \321\200\321\203\321\207\320\275\320\260\321\217", 0));
+        label_2->setText(QApplication::translate("MainWindow", "\320\241\320\272\320\276\321\200\320\276\321\201\321\202\321\214 \321\206\320\270\320\272\320\273\320\270\321\207\320\265\321\201\320\272\320\260\321\217", 0));
+        sensor->setText(QApplication::translate("MainWindow", "0", 0));
+        pot_1->setText(QApplication::translate("MainWindow", "0", 0));
+        pot_2->setText(QApplication::translate("MainWindow", "0", 0));
+        getRtuRegister->setText(QApplication::translate("MainWindow", "\320\235\320\260\321\207\320\260\321\202\321\214 \320\276\320\277\321\200\320\276\321\201", 0));
+        menuCalls->setTitle(QApplication::translate("MainWindow", "\320\237\320\276\320\264\320\272\320\273\321\216\321\207\320\265\320\275\320\270\320\265", 0));
+        menuTools->setTitle(QApplication::translate("MainWindow", "\320\235\320\260\321\201\321\202\321\200\320\276\320\271\320\272\320\270", 0));
     } // retranslateUi
 
 };

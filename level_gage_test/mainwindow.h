@@ -44,6 +44,8 @@
 #include "settingsdialog.h"
 #include "qmodbus/qrtumodbus.h"
 #include <QTimer>
+#include <QListView>
+#include <QStringListModel>
 
 #define GRAPH_LENGTH    201
 
@@ -69,11 +71,6 @@ public:
 private slots:
     void openSerialPort();
     void closeSerialPort();
-    void about();
-//    void writeData(const QByteArray &data);
-//    void readData();
-
-//    void handleError(QSerialPort::SerialPortError error);
 
     void on_getRtuRegister_clicked();
 
@@ -88,6 +85,9 @@ private:
     QRtuModbus *RtuModbus;
     SettingsDialog *settings;
     QTimer *RegRequestTimer;
+
+    QStringList errorData;
+    QStringListModel errorListModel;
 
     QVector<double> x, y;
 };
