@@ -46,8 +46,11 @@
 #include <QTimer>
 #include <QListView>
 #include <QStringListModel>
+#include <stdint.h>
 
-#define GRAPH_LENGTH    201
+#define GRAPH_LENGTH        1001
+#define REQUEST_INTERVAL    125
+#define MODBUS_REG_NUM      4
 
 QT_BEGIN_NAMESPACE
 
@@ -78,6 +81,8 @@ private slots:
 
 private:
     void initActionsConnections();
+    void addGraphPoint(uint16_t value);
+    void clearGraph();
 
 private:
     Ui::MainWindow *ui;
@@ -90,6 +95,30 @@ private:
     QStringListModel errorListModel;
 
     QVector<double> x, y;
+
+    uint16_t level_meter_test_state_1,level_meter_test_state_2;
+
+    uint16_t level_meter_value;
+    uint16_t speed_manual;
+    uint16_t speed_cycle;
+
+    enum
+    {
+        LEVEL_METER_TEST_STOP=0,
+        LEVEL_METER_TEST_MANUAL_UP,
+        LEVEL_METER_TEST_MANUAL_DOWN,
+        LEVEL_METER_TEST_CYCLE_UP,
+        LEVEL_METER_TEST_CYCLE_DOWN,
+        LEVEL_METER_TEST_CYCLE_PAUSE,
+    };
+
+    enum
+    {
+        REG_LEVEL=0,
+        REG_SPEED_MANUAL,
+        REG_SPEED_CYCLE,
+        REG_STATE,
+    };
 };
 
 #endif // MAINWINDOW_H

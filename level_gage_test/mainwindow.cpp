@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initActionsConnections();
 
+    level_meter_test_state_1=level_meter_test_state_2=0xFF;
+
     errorData<<"2111"<<"2222"<<"2333";
     errorListModel.setStringList(errorData);
     ui->listError->setModel(&errorListModel);
@@ -43,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->plot->xAxis->setLabel("отсчеты");
     ui->plot->yAxis->setLabel("значение");
-    ui->plot->xAxis->setRange(0, 200);
+    ui->plot->xAxis->setRange(0, (GRAPH_LENGTH-1));
     ui->plot->yAxis->setRange(0, 4095);
 
     errorData<<"lolo";
@@ -112,7 +114,7 @@ void MainWindow::on_getRtuRegister_clicked()
         }
         else
         {
-            RegRequestTimer->setInterval(500);
+            RegRequestTimer->setInterval(REQUEST_INTERVAL);
             RegRequestTimer->start();
             ui->getRtuRegister->setText(tr("Завершить опрос"));
         }
@@ -128,25 +130,71 @@ void MainWindow::on_getRtuRegister_clicked()
      {
          response=RtuModbus->readInputRegisters(0xA,0x0,3,NULL);
 
-         if(response.length()==3)
+         if(response.length()==MODBUS_REG_NUM)
          {
-             this->ui->pot_1->setText(QString::number(response[0]));
-             this->ui->pot_2->setText(QString::number(response[1]));
-             this->ui->sensor->setText(QString::number(response[2]));
+             level_meter_test_state_2=level_meter_test_state_1;
 
-             if(y.length()<GRAPH_LENGTH)
+             this->ui->pot_1->setText(QString::number(response[REG_SPEED_MANUAL]));
+             this->ui->pot_2->setText(QString::number(response[REG_SPEED_CYCLE]));
+             this->ui->sensor->setText(QString::number(response[REG_LEVEL]));
+
+             level_meter_value=response[REG_LEVEL];
+             speed_manual=response[REG_SPEED_MANUAL];
+             speed_cycle=response[REG_SPEED_CYCLE];
+             level_meter_test_state_1=response[REG_STATE];
+
+
+
+             switch(level_meter_test_state_1)
              {
-                   y.append((double)response[2]);
-                   x.append(x.length());
-             }
-             else
-             {
-                 y.pop_front();
-                 y.append((double)response[2]);
+                 case LEVEL_METER_TEST_STOP:
+                 {
+
+                 }
+                 break;
+
+                 case LEVEL_METER_TEST_MANUAL_UP:
+                 {
+                    addGraphPoint(level_meter_value);
+                 }
+                 break;
+
+                 case LEVEL_METER_TEST_MANUAL_DOWN:
+                 {
+                    addGraphPoint(level_meter_value);
+                 }
+                 break;
+
+                 case LEVEL_METER_TEST_CYCLE_UP:
+                 {
+                    addGraphPoint(level_meter_value);
+                 }
+                 break;
+
+                 case LEVEL_METER_TEST_CYCLE_DOWN:
+                 {
+                    addGraphPoint(level_meter_value);
+                 }
+                 break;
+
+                 case LEVEL_METER_TEST_CYCLE_PAUSE:
+                 {
+                    addGraphPoint(level_meter_value);
+                 }
+                 break;
+
+                 default:
+                 {
+
+                 }
+                 break;
              }
 
-             ui->plot->graph(0)->setData(x,y);
-             ui->plot->replot();
+
+
+
+
+
 
          }
          else
@@ -155,4 +203,30 @@ void MainWindow::on_getRtuRegister_clicked()
          }
 
      }
+ }
+
+ void MainWindow::addGraphPoint(uint16_t value)
+ {
+     if(y.length()<GRAPH_LENGTH)
+     {
+           y.append((double)value);
+           x.append(x.length());
+     }
+     else
+     {
+         y.pop_front();
+         y.append((double)value);
+     }
+
+     ui->plot->graph(0)->setData(x,y);
+     ui->plot->replot();
+ }
+
+
+ void MainWindow::clearGraph()
+ {
+    x.clear();
+    y.clear();
+    ui->plot->graph(0)->setData(x,y);
+    ui->plot->replot();
  }
