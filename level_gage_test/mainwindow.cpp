@@ -38,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     test_state_1=test_state_2=0xFF;
     cycle_state_1=cycle_state_2=0xFF;
 
-    errorData<<"2111"<<"2222"<<"2333";
-    errorListModel.setStringList(errorData);
+    /*errorData<<"2111"<<"2222"<<"2333";
+    errorListModel.setStringList(errorData);*/
     ui->listError->setModel(&errorListModel);
 
     ui->plot->addGraph();
@@ -49,8 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->plot->xAxis->setRange(0, (GRAPH_LENGTH-1));
     ui->plot->yAxis->setRange(0, 4095);
 
-    errorData<<"lolo";
-    errorListModel.setStringList(errorData);
+ /*   errorData<<"lolo";
+    errorListModel.setStringList(errorData);*/
 //    connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
 //            SLOT(handleError(QSerialPort::SerialPortError)));
 
@@ -183,18 +183,39 @@ void MainWindow::on_getRtuRegister_clicked()
                         case CYCLE_STATE_SEARCH_END_SWITCH_LOWER:
                         {
                             clearGraph();
+                            errorData.clear();
+                            errorListModel.setStringList(errorData);
                         }
                         break;
 
                         case CYCLE_STATE_GET_UP:
                         {
                             addGraphPoint(level_meter_value);
+
+                            if(y.length()>1)
+                            {
+                                if(y[y.length()-1]<y[y.length()-2])
+                                {
+                                    errorData<<QString::number(y[y.length()-2]);
+                                    errorListModel.setStringList(errorData);
+                                }
+                            }
                         }
                         break;
 
                         case CYCLE_STATE_GET_DOWN:
                         {
                             addGraphPoint(level_meter_value);
+
+                            if(y.length()>1)
+                            {
+                                if(y[y.length()-1]>y[y.length()-2])
+                                {
+                                    errorData<<QString::number(y[y.length()-2]);
+                                    errorListModel.setStringList(errorData);
+                                }
+                            }
+
                         }
                         break;
 
