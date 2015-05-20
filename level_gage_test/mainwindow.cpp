@@ -35,7 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initActionsConnections();
 
-    level_meter_test_state_1=level_meter_test_state_2=0xFF;
+    test_state_1=test_state_2=0xFF;
+    cycle_state_1=cycle_state_2=0xFF;
 
     errorData<<"2111"<<"2222"<<"2333";
     errorListModel.setStringList(errorData);
@@ -128,58 +129,88 @@ void MainWindow::on_getRtuRegister_clicked()
 
      if(RtuModbus->isOpen())
      {
-         response=RtuModbus->readInputRegisters(0xA,0x0,3,NULL);
+         response=RtuModbus->readInputRegisters(0xA,0x0,MODBUS_REG_NUM,NULL);
 
          if(response.length()==MODBUS_REG_NUM)
          {
-             level_meter_test_state_2=level_meter_test_state_1;
+             test_state_2=test_state_1;
+             cycle_state_2=cycle_state_1;
 
              this->ui->pot_1->setText(QString::number(response[REG_SPEED_MANUAL]));
              this->ui->pot_2->setText(QString::number(response[REG_SPEED_CYCLE]));
              this->ui->sensor->setText(QString::number(response[REG_LEVEL]));
 
-             level_meter_value=response[REG_LEVEL];
+             level_meter_value=response[REG_SPEED_MANUAL];//response[REG_LEVEL];
              speed_manual=response[REG_SPEED_MANUAL];
              speed_cycle=response[REG_SPEED_CYCLE];
-             level_meter_test_state_1=response[REG_STATE];
+             test_state_1=response[REG_TEST_STATE];
+             cycle_state_1=response[REG_CYCLE_STATE];
 
 
 
-             switch(level_meter_test_state_1)
+             switch(test_state_1)
              {
-                 case LEVEL_METER_TEST_STOP:
+                 case TEST_STATE_STOP:
                  {
 
                  }
                  break;
 
-                 case LEVEL_METER_TEST_MANUAL_UP:
+                 case TEST_STATE_GET_DOWN:
                  {
                     addGraphPoint(level_meter_value);
                  }
                  break;
 
-                 case LEVEL_METER_TEST_MANUAL_DOWN:
+                 case TEST_STATE_GET_UP:
                  {
                     addGraphPoint(level_meter_value);
                  }
                  break;
 
-                 case LEVEL_METER_TEST_CYCLE_UP:
+                 case TEST_STATE_CYCLE_PAUSE:
                  {
-                    addGraphPoint(level_meter_value);
+
                  }
                  break;
 
-                 case LEVEL_METER_TEST_CYCLE_DOWN:
+                 case TEST_STATE_CYCLE:
                  {
-                    addGraphPoint(level_meter_value);
-                 }
-                 break;
 
-                 case LEVEL_METER_TEST_CYCLE_PAUSE:
-                 {
-                    addGraphPoint(level_meter_value);
+
+                    switch(cycle_state_1)
+                    {
+                        case CYCLE_STATE_SEARCH_END_SWITCH_LOWER:
+                        {
+                            clearGraph();
+                        }
+                        break;
+
+                        case CYCLE_STATE_GET_UP:
+                        {
+                            addGraphPoint(level_meter_value);
+                        }
+                        break;
+
+                        case CYCLE_STATE_GET_DOWN:
+                        {
+                            addGraphPoint(level_meter_value);
+                        }
+                        break;
+
+                        case CYCLE_STATE_END:
+                        {
+
+                        }
+                        break;
+
+                        default:
+                        {
+
+                        }
+                        break;
+                    }
+
                  }
                  break;
 
@@ -189,13 +220,6 @@ void MainWindow::on_getRtuRegister_clicked()
                  }
                  break;
              }
-
-
-
-
-
-
-
          }
          else
          {

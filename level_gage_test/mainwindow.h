@@ -50,7 +50,7 @@
 
 #define GRAPH_LENGTH        1001
 #define REQUEST_INTERVAL    125
-#define MODBUS_REG_NUM      4
+#define MODBUS_REG_NUM      5
 
 QT_BEGIN_NAMESPACE
 
@@ -96,28 +96,48 @@ private:
 
     QVector<double> x, y;
 
-    uint16_t level_meter_test_state_1,level_meter_test_state_2;
+    uint16_t test_state_1,test_state_2;
+    uint16_t cycle_state_1,cycle_state_2;
 
     uint16_t level_meter_value;
     uint16_t speed_manual;
     uint16_t speed_cycle;
 
-    enum
-    {
-        LEVEL_METER_TEST_STOP=0,
-        LEVEL_METER_TEST_MANUAL_UP,
-        LEVEL_METER_TEST_MANUAL_DOWN,
-        LEVEL_METER_TEST_CYCLE_UP,
-        LEVEL_METER_TEST_CYCLE_DOWN,
-        LEVEL_METER_TEST_CYCLE_PAUSE,
-    };
+//    enum
+//    {
+//        LEVEL_METER_TEST_STOP=0,
+//        LEVEL_METER_TEST_MANUAL_UP,
+//        LEVEL_METER_TEST_MANUAL_DOWN,
+//        LEVEL_METER_TEST_CYCLE_UP,
+//        LEVEL_METER_TEST_CYCLE_DOWN,
+//        LEVEL_METER_TEST_CYCLE_PAUSE,
+//    };
 
     enum
     {
         REG_LEVEL=0,
-        REG_SPEED_MANUAL,
         REG_SPEED_CYCLE,
-        REG_STATE,
+        REG_SPEED_MANUAL,
+        REG_TEST_STATE,
+        REG_CYCLE_STATE,
+    };
+
+    enum
+    {
+        TEST_STATE_STOP=0,
+        TEST_STATE_GET_UP,
+        TEST_STATE_GET_DOWN,
+        TEST_STATE_CYCLE,
+        TEST_STATE_CYCLE_PAUSE,
+    };
+
+    enum
+    {
+        CYCLE_STATE_SEARCH_END_SWITCH_LOWER=0,
+        CYCLE_STATE_GET_UP,
+        CYCLE_STATE_GET_DOWN,
+        CYCLE_STATE_END,
+
     };
 };
 
