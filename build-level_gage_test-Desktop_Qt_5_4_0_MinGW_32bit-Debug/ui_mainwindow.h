@@ -109,6 +109,9 @@ public:
         sizePolicy1.setHeightForWidth(listError->sizePolicy().hasHeightForWidth());
         listError->setSizePolicy(sizePolicy1);
         listError->setMaximumSize(QSize(100, 16777215));
+        QFont font;
+        font.setPointSize(12);
+        listError->setFont(font);
 
         horizontalLayout->addWidget(listError);
 
@@ -123,6 +126,9 @@ public:
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         sensor_value_label = new QLabel(centralWidget);
         sensor_value_label->setObjectName(QStringLiteral("sensor_value_label"));
+        QFont font1;
+        font1.setPointSize(16);
+        sensor_value_label->setFont(font1);
 
         verticalLayout_2->addWidget(sensor_value_label);
 
@@ -144,11 +150,19 @@ public:
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         sensor = new QLabel(centralWidget);
         sensor->setObjectName(QStringLiteral("sensor"));
+        QFont font2;
+        font2.setPointSize(20);
+        font2.setBold(true);
+        font2.setWeight(75);
+        sensor->setFont(font2);
 
         verticalLayout_3->addWidget(sensor);
 
         pot_1 = new QLabel(centralWidget);
         pot_1->setObjectName(QStringLiteral("pot_1"));
+        QFont font3;
+        font3.setPointSize(8);
+        pot_1->setFont(font3);
 
         verticalLayout_3->addWidget(pot_1);
 
@@ -168,6 +182,7 @@ public:
         sizePolicy2.setHeightForWidth(getRtuRegister->sizePolicy().hasHeightForWidth());
         getRtuRegister->setSizePolicy(sizePolicy2);
         getRtuRegister->setMinimumSize(QSize(0, 50));
+        getRtuRegister->setFont(font);
 
         horizontalLayout_2->addWidget(getRtuRegister);
 

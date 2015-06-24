@@ -48,10 +48,10 @@
 #include <QStringListModel>
 #include <stdint.h>
 
-#define GRAPH_LENGTH        1001
-#define REQUEST_INTERVAL    50
+#define GRAPH_LENGTH        2001
+#define REQUEST_INTERVAL    25
 #define MODBUS_REG_NUM      5
-#define TRESHOLD_ERROR_UP       5
+#define TRESHOLD_ERROR_UP       20
 #define TRESHOLD_ERROR_DOWN     30
 
 QT_BEGIN_NAMESPACE
@@ -104,6 +104,8 @@ private:
     uint16_t level_meter_value;
     uint16_t speed_manual;
     uint16_t speed_cycle;
+
+    bool collapse;
 
 //    enum
 //    {

@@ -49,6 +49,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->plot->xAxis->setRange(0, (GRAPH_LENGTH-1));
     ui->plot->yAxis->setRange(0, 4095);
 
+    ui->plot->graph(0)->setPen(QPen( Qt::red, 2 ));
+
+    collapse=false;
+
  /*   errorData<<"lolo";
     errorListModel.setStringList(errorData);*/
 //    connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
@@ -194,10 +198,16 @@ void MainWindow::on_getRtuRegister_clicked()
 
                             if(y.length()>1)
                             {
-                                if(((int32_t)y[y.length()-2]-y[y.length()-1])>TRESHOLD_ERROR_UP)
+                                if((((int32_t)y[y.length()-2]-y[y.length()-1])>TRESHOLD_ERROR_UP)&&(collapse==false))
                                 {
                                     errorData<<QString::number(y[y.length()-2]);
                                     errorListModel.setStringList(errorData);
+                                    collapse=true;
+                                }
+
+                                if((((int32_t)y[y.length()-1]-y[y.length()-2])>TRESHOLD_ERROR_UP)&&(collapse==true))
+                                {
+                                    collapse=false;
                                 }
                             }
                         }
