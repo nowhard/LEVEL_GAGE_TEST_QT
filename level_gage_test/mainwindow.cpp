@@ -140,7 +140,7 @@ void MainWindow::on_getRtuRegister_clicked()
              this->ui->pot_2->setText(QString::number(response[REG_SPEED_CYCLE]));
              this->ui->sensor->setText(QString::number(response[REG_LEVEL]));
 
-             level_meter_value=response[REG_SPEED_MANUAL];//response[REG_LEVEL];
+             level_meter_value=response[REG_LEVEL];
              speed_manual=response[REG_SPEED_MANUAL];
              speed_cycle=response[REG_SPEED_CYCLE];
              test_state_1=response[REG_TEST_STATE];
@@ -194,7 +194,7 @@ void MainWindow::on_getRtuRegister_clicked()
 
                             if(y.length()>1)
                             {
-                                if(y[y.length()-1]<y[y.length()-2])
+                                if(((int32_t)y[y.length()-2]-y[y.length()-1])>TRESHOLD_ERROR_UP)
                                 {
                                     errorData<<QString::number(y[y.length()-2]);
                                     errorListModel.setStringList(errorData);
@@ -209,9 +209,9 @@ void MainWindow::on_getRtuRegister_clicked()
 
                             if(y.length()>1)
                             {
-                                if(y[y.length()-1]>y[y.length()-2])
+                                if(((int32_t)y[y.length()-1]-y[y.length()-2])>TRESHOLD_ERROR_DOWN)
                                 {
-                                    errorData<<QString::number(y[y.length()-2]);
+                                    errorData<<QString::number(y[y.length()-1]);
                                     errorListModel.setStringList(errorData);
                                 }
                             }

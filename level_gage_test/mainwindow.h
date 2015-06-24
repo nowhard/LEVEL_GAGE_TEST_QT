@@ -49,8 +49,10 @@
 #include <stdint.h>
 
 #define GRAPH_LENGTH        1001
-#define REQUEST_INTERVAL    125
+#define REQUEST_INTERVAL    50
 #define MODBUS_REG_NUM      5
+#define TRESHOLD_ERROR_UP       5
+#define TRESHOLD_ERROR_DOWN     30
 
 QT_BEGIN_NAMESPACE
 
