@@ -219,10 +219,16 @@ void MainWindow::on_getRtuRegister_clicked()
 
                             if(y.length()>1)
                             {
-                                if(((int32_t)y[y.length()-1]-y[y.length()-2])>TRESHOLD_ERROR_DOWN)
+                                if((((int32_t)y[y.length()-2]-y[y.length()-1])>TRESHOLD_ERROR_DOWN)&&(collapse==false))
                                 {
-                                    errorData<<QString::number(y[y.length()-1]);
+                                    errorData<<QString::number(y[y.length()-2]);
                                     errorListModel.setStringList(errorData);
+                                    collapse=true;
+                                }
+
+                                if((((int32_t)y[y.length()-1]-y[y.length()-2])>TRESHOLD_ERROR_DOWN)&&(collapse==true))
+                                {
+                                    collapse=false;
                                 }
                             }
 
